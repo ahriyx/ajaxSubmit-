@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="form-master/bootstrap.css">
+</head>
+
+<body>
+	<div class="container">
+		<div class="col-sm-6 col-sm-offset-3">
+			<!-- 可以通过 url 属性 或者是 form表单的 action 属性来设置 -->
+			<form action="./demo.php">
+				<div class="form-group">
+					<label for="">姓名:</label>
+					<input type="text" id="username" name="name" class="form-control">
+					<p class="help-block"></p>
+				</div>
+				<div class="form-group">
+					<label for="">密码:</label>
+					<input type="text" name="pass" class="form-control">
+					<p class="help-block" id="pass-desc"></p>
+				</div>
+				<div class="form-group">
+					<label for="">手机号:</label>
+					<input type="text" id="phone" name="phone" class="form-control">
+					<p class="help-block" id="phone-desc"></p>
+				</div>
+				<input type="submit" class="btn btn-success" value="提交">
+			</form>
+		</div>
+	</div>
+
+	<!--第一步： 引入jQuery-->
+	<script src="../jquery.js"></script>
+	<!--第二步：引入插件-->
+	<script src="./form-master/jquery.form.js"></script>
+
+	<script>
+		// 对于 get 提交，我们可以使用 jQuery 中的 serialize()
+		// 可以将 表单 根据name属性，拼接一个 get 提交的 querystring 参数
+		// 然后，就可以直接作为 get 请求的参数，进行 get 请求了！！！
+
+		// 对于 post 提交来说，jQuery没有提供一个序列化表单为 对象的方法
+		// 但是，我们可以使用插件来完成！！！
+
+		// 3 给 form 表单绑定 submit 事件
+		$('form').on('submit', function() {
+			// $.ajax()
+
+			// 根据 form表单元素的name属性，序列化要提交的数据
+			// 因为是 post 提交，所以，会自动序列化为： 对象
+			// ajaxSubmit() 方法，让 表单元素 来使用
+			$(this).ajaxSubmit({
+				// url 可以不指定，自动读取form标签中的 action 属性
+				// 1 指定了 url，就把指定的url值作为接口地址发送请求
+				// 2 没有指定 url，就按照 form标签的 action 属性，作为接口地址
+				url: '数据提交的接口',
+				
+				type: 'post',
+				dataType: 'json',
+				
+				// 这个 data 属性，用于指定一些除了表单元素意外的数据
+				data: {
+					test: ''
+				},
+				
+				success: function( data ) {
+
+				}
+			});
+			
+			return false;
+		});
+	</script>
+</body>
+
+</html>
